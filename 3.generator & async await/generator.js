@@ -54,7 +54,7 @@ function * read() {// 暂停功能
 } 
 
 let it = read();
-let { value } = it.next(); // 碰到第一个yield， 返回的是promise
+let { value } = it.next(); // 碰到第一个yield， 返回的是promise, 然后我们执行promise.then方法
 value.then(data => {
 	let { value } = it.next(data);// 遇到第二个yield, 把data赋值给name, 返回promise
 	value.then(data => {
@@ -131,18 +131,25 @@ it.throw('hello'); */
 }
 test();
  */
-async function test() {// 返回一个promise
-	
-	let r =	await new Promise((resolve, reject) => {
-			setTimeout(() => {
-				reject('hello');
-			}, 1000);
+
+// async 就相当于是co方法， await就相当于yield， 内部有一个next方法
+// test就是generator函数， 相当于执行co(test())返回一个promise，co方法内部有一个next函数
+// 1. 执行next，执行到第一个 yield new Promise(), 返回一个promise
+// 2. 在promise.then方法中执行next(data),这样就把promise的结果赋值给了r, 然后next(data)的返回结果是{value: undefined, done: true}
+// 因此data是undefined
+
+async function test() { // 返回一个promise
+
+	let r = await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve('hello');
+		}, 1000);
 	});
-	console.log(r);
+	console.log('r', r);
 }
 
-test().catch(err => {
-	console.log(err);
+test().then((data) => {
+	console.log(data);
+}).catch(err => {
+	console.log('err', err);
 })
-
-

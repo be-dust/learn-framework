@@ -1,5 +1,5 @@
 
-// let Promise = require('./promise');
+let Promise = require('./promise-basic');
 
 let promise = new Promise((resolve, reject) => {
 	setTimeout(() => {

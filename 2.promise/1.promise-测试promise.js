@@ -26,16 +26,21 @@ let promise3 = promise2.then((data) => {
 });
 
 
-/* // 1)step1 引用同一个对象 造成死循环:自己等待自己的状态
 let promise = new Promise((resolve, reject) => {
 	resolve('hello');
 });
 let promise2 = promise.then(() => {
-	return promise2;// 返回了一个promise2状态是pending， 自己等待自己就死循环了
+	return promise2;
 });
 promise2.then(() => {}, (err) => {
 	console.log(err);
-}) */
+});
+
+就会报下面的错
+```
+[TypeError: Chaining cycle detected for promise #<Promise>]
+```
+因为promise的then方法执行的时候创建了promise2，这个时候promise2状态是pending， 而成功回调里又返回promise2, 状态依然是pending，执行promise2.then方法只会添加订阅，一直得不到resolve, 于是自己等待自己就死循环了。
 
 /* // 复杂情况
 let promise = new Promise((resolve, reject) => {

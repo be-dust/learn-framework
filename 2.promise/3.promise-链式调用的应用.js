@@ -1,12 +1,16 @@
 // promise 可以解决链式调用问题 jquery.then.then
 // 原生效果 -> 写原理
 
-let promise = new Promise((resolve, reject) => {
+1. promise可以返回一个值(不是promise), 会把这个值放到下一次then的成功的回调中。
+
+2. promise可能
+
+new Promise((resolve, reject) => {
 	resolve('hello');// 普通值意味着不是一个promise
-});
+}); 
 
 promise.then(data => {
-	return data; // then方法可以放回一个值(不是promise), 会把这个值放到下一次then的成功的回调中
+	return data;
 }).then(data => {
 	// console.log(data);
 	return new Promise((resolve) => { //如果返回一个promise，那么回采用这个promise的结果

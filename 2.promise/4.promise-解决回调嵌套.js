@@ -2,7 +2,7 @@ let fs = require('fs');
 let Promise = require('./promise-complete');
 
 // 将异步发方法 先转换成promise
-/* function read(...args) {
+function read(...args) {
 	// 多了一层嵌套不好 
 	// return new Promise((resolve, reject) => {
 	// 	fs.readFile(...args, function(err, data) {
@@ -22,7 +22,7 @@ read('./name.txt', 'utf8').then(data => {
 	return read(data, 'utf8');
 }).catch(err => {
 	console.log('catch错误', err);
-}); */
+});
 
 // 上面写法还是太麻烦
 

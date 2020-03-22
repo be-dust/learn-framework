@@ -1,15 +1,20 @@
-// 1. Promise是一个类 天生的, 类中需要传入一个executor执行器， 默认会立即执行
-// new Promise(() => {
-// 	console.log(1);
-// });
+/* 1. Promise是一个类, 类中需要传入一个executor执行器， 默认会立即执行,就向下面这样会立即打印出1
+```
+new Promise(() => {
+	console.log(1);
+});
+```
+2. promise有内部会提供两个方法resolve和reject，注意不是原型对象上的，这两个方法会传给用户,可以更改promise的状态。
+3. promise有三个状态：等待（PENDING）， 成功（RESOLVED）返回成功的原因， 失败（REJECTED）返回失败的原因，如果不写原因返回undefined，失败的情况只有两种 ：
+		1. reject 
+		2. 抛出异常
+promise只会从等待变为成功或者从等待变为失败。
 
-// 2. promise 内部会提供两个方法，注意不是原型对象上的，这两个方法会传给用户,可以更改promise的状态
-// 三个状态：等待， 成功， 失败
-// resolve 成功 返回(成功的原因)； reject: 失败 返回(失败的原因)，如果不写原因返回undefined
-// 失败的情况 ：1）reject 2)抛出异常
-// 只会成功或者失败
+3. 每个promise实例上都要有一个then方法， 分别是成功和失败的回调。
 
-//每个promise实例上都要有一个then方法， 分别是成功和失败的回调
+ok，基于以上所述我们写一个最基本的promise
+
+ */
 
 
 const PENDING = 'PENDING';
@@ -21,16 +26,13 @@ class Promise {
 		this.status = PENDING; // 宏变量, 默认是等待态
 		this.value = undefined; // then方法要访问到所以放到this上
 		this.reason = undefined; // then方法要访问到所以放到this上
-		// 专门存放成功的回调函数
-		this.onResolvedCallbacks = [];
-		// 专门存放成功的回调函数
-		this.onRejectedCallbacks = [];
+		this.onResolvedCallbacks = [];// 专门存放成功的回调函数
+		this.onRejectedCallbacks = [];// 专门存放成功的回调函数
 		let resolve = (value) => {
 			if (this.status === PENDING) {// 保证只有状态是等待态的时候才能更改状态
 				this.value = value;
 				this.status = RESOLVED;
-
-				// 需要让成功的方法一次执行
+				// 需要让成功的方法依次执行
 				this.onResolvedCallbacks.forEach(fn => fn());
 			}
 		};
@@ -38,16 +40,16 @@ class Promise {
 			if (this.status === PENDING) {
 				this.reason = reason;
 				this.status = REJECTED;
-				// 需要让失败的方法一次执行
+				// 需要让失败的方法依次执行
 				this.onRejectedCallbacks.forEach(fn => fn());
 			}
 		};
-		// 执行executor 传入成功和失败:把内部的resolve和 reject传入executor中用户写的resolve, reject
+		// 执行executor传入我们定义的成功和失败函数:把内部的resolve和reject传入executor中用户写的resolve, reject
 		try {
-			executor(resolve, reject);// 立即执行
+			executor(resolve, reject);
 		} catch(e) {
 			console.log('catch错误', e);
-			reject(e); //如果内部出错 直接将error 手动调用reject向下传递
+			reject(e); //如果内部出错 直接将error手动调用reject向下传递
 		}
 	}
 	then(onfulfilled, onrejected) {
