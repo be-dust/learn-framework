@@ -128,7 +128,7 @@ vue也会使用Object.defineProperty方法把计算属性定义在了vm上, 这�
    1. computed有缓存机制
    2. computed属性可以直接放在模板中使用, 因为他的处理函数返回的是一个值。watch只适合用来处理监控逻辑
 
-## 虚拟dom
+## 6. 虚拟dom
 
 ```js
 let app = document.getElementById('app');
