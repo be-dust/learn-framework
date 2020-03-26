@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		<!-- Vue中以v-开头， 一般是用来操作dom的，有封装的作用-->
+		<!-- v-once 只渲染一次，后续更新数据也不会重新渲染，vue会把这个节点标记为静态节点 -->
+		<div v-once>{{msg}}</div>
+
+		<!-- v-html 相当于innerHTML, 后面放的是变量; v-html会有危险性，因为插入的内容会变成一个真实的dom，如果dom里含有脚本就会引发xss攻击, 比如<img src="xxx" alt="" onerror="alert(1)"/>
+		 所以要尽量采用可信内容，不要把用户的输入直接回显；会覆盖子元素-->
+		 <!-- v-text 相当于 {{}} -->
+		<!-- <div v-html="img"></div> -->
+
+		<!-- v-if v-else-if v-else vue中提供了一个无意义的标签template； v-if如果值为false那么内部逻辑就不会走了-->
+		<!-- v-show 不能使用在template上; v-show如果值为false内部逻辑依然会走-->
+
+		<!-- v-for 字符串，数组，对象，数字; key问题-->
+		<div v-for="(a, index) in 3" :key="`a_${index}`">a</div>
+		<div v-for="(b, index) in 3" :key="`b_${index}`">b</div>
+
+		<!-- v-if 和 v-for不能连用，主要是因为优先级问题，v-for的优先级要大于v-if的优先级 -->
+		<!-- 我们想要的效果是如果show为false的话就不显示dom, 对于下面这种写法，效果虽然能实现但是性能会很差，因为这段代码编译后类似这个样子
+			```
+			arr.map(fruit => {
+				return show ? fruit : ''
+			})
+```
+数组有多少项就要循环多少次，每次都要根据show来判断是否渲染dom，解决办法其实是用template包一层
+	   <template v-if="show">
+			<div v-for="fruit in arr" :key="fruit">{{fruit}}</div>
+		</template>
+		如果show为false，下面的逻辑就不走了，没有一次循环
+
+		-->
+		<!-- v-for如果用在了template上，key就不能写在template上，要放在真实的元素上 -->
+		<div  v-if="show" v-for="fruit in arr" :key="fruit">{{fruit}}</div>
+		<template v-if="show">
+			<div v-for="fruit in arr" :key="fruit">{{fruit}}</div>
+		</template>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				show: true,
+				msg: 'hello',
+				arr: ['香蕉', '苹果', '栗子'],
+				img: '<img src="xxx" alt="" onerror="alert(1)"/>'
+			}
+		});
+		vm.msg = 'world'
+	</script>
+</body>
+</html>

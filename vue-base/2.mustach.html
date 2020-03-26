@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		<!-- {{}} 会被编译成一个函数 _xxx(msg)， 我们写的msg会放进这个函数里, 不能放js语法 -->
+		{{msg}}
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: { 
+				/* 响应式存在的问题：
+				1. vue2.0中的响应式会递归去循环所有的属性，添加setter和getter, 造成性能浪费
+				2. 对象的问题：只监控初始自带的属性,比如 obj: {a: 1}, 只会对a监控，新增属性不能被监控。可以使用vm.$set(obj, b, 100);
+				3. 数组的问题：数组的索引发生变化、数组的长度发生变化都不会触发更新。可以通过vm.$set(vm.arr, 0, 100)解决, 内部就是使用了变异的splice方法。如果要删除某一项就使用vm.$delete(vm.arr, 0);
+				
+				vue3.0中通过proxy来解决以上问题： */
+
+
+				msg: 'hello'
+			}
+		});
+	</script>
+</body>
+</html>

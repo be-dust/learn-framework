@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="app">
+		{{msg}}
+		<div v-for="(item, index) in arr">
+			<p>{{item.title}}</p>
+			<ul>
+				<li v-for="(child, i) in item.children" v-show="i < 4 || isShowMore[item.id]">{{child}}</li>
+			</ul>
+			<a href="javascipt:;" v-show="item.children.length > 4"
+				@click="showMore(item.id)">{{isShowMore[item.id]? '隐藏更多': '显示更多'}}</a>
+		</div>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: 'hello',
+				arr: [],
+				isShowMore: {}
+			},
+			created() {
+				setTimeout(() => {
+					this.arr = [{
+							id: 1,
+							title: '网络组件',
+							children: [1, 2, 3, 4, 5]
+						},
+						{
+							id: 2,
+							title: '操作系统',
+							children: [1, 2, 3, 4, 5]
+						}
+					];
+					console.log(this.arr);
+					this.arr.forEach(item => {
+						this.$set(this.isShowMore, item.id, false);
+					});
+				}, 5000);
+
+			},
+			mounted() {
+				console.log(1);
+			},
+			methods: {
+				showMore(id) {
+					this.isShowMore[id] = !this.isShowMore[id];
+					console.log(this.isShowMore);
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

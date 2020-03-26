@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		{{msg}}
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: 'hello'
+			},
+			// template: '<p>world</p>',
+			// render(h) {// 1. 写了render， template就不起作用了；2. 不写render,写template，就使用template作为模板；3. render和template都不写就采用外部模板也就是#app内部的html
+			// 	return h('p', ['hello']);
+			// }
+		});
+	</script>
+</body>
+</html>

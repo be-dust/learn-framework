@@ -51,9 +51,9 @@ Vue.prototype._update = function(vnode) {
 
 Vue.prototype._render = function() {
 	let vm = this;
-	let render = vm.$options.render;// 获取用户编写的render方法
+	let render = vm.$options.render;// 获取用户编写的render方法， 如果用户传入的是template，那就根据template生成一个render函数放在vm.$options上，这个时候还没有把真正的数据放进去
 
-	let vnode = render.call(vm, h);// 这个函数返回的是一个vnode
+	let vnode = render.call(vm, h);// 这个函数返回的是一个vnode， 第一个参数是当前vm实例用来获取数据， h就是用来创建虚拟节点, 执行render之后生成的虚拟节点就包含真正的数据。
 	return vnode;
 }
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			// el: '#app',
+			template: '<div>{{msg}}</div>',
+			data: {
+				msg: 'hello'
+			}
+		});
+		/* vm.$mount();// 不传参数表示我们要手动挂载,可以挂载到页面的任何地方，以前的写法只能放在#app中
+		console.log(vm.$el);
+		document.body.appendChild(vm.$el); */
+		vm.$mount('#app');
+		console.log(vm.$options);// 用户传入的属性和vue内部的属性
+		vm.$watch('msg', function(newValue,oldValue) {
+			console.log(newValue);
+		});
+		vm.msg = 1;
+		vm.msg = 2;
+		vm.msg = 3;
+		// vm.$nextTick vm.$delete vm.$set
+	</script>
+</body>
+</html>

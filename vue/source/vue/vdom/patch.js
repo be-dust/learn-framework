@@ -124,7 +124,7 @@ function updateChildren(parent, oldChildren, newChildren) {
 	let map = makeIndexByKey(oldChildren);
 	console.log('map', map);
 
-	// 每一次循环都是按照1->2->3->4的顺序走的
+	// 每一次循环都是按照1->2->3->4->5的顺序走的
 	while(oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
 		if (!oldStartVnode) {
 			oldStartVnode = oldChildren[++oldStartIndex];
