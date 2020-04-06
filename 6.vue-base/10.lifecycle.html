@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		{{msg}}
+		<a href="" @click.prevent="fn">点我</a>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		Vue.mixin({
+			// 会导致这个方法不知道怎么来的， vue3.0中使用compositionApi来解决这个问题
+			beforeCreate() {
+				console.log('初始化前的公共逻辑');
+			},
+			methods: {
+				fn() {
+					console.log('mixin method');
+				}
+			},
+		});
+		let vm = new Vue({   
+			el: '#app',
+			data: {
+				msg: 'hello'
+			},
+			methods: {
+				fn() {
+					console.log('method');
+				}
+			},
+			// 生命周期同步执行
+			beforeCreate() {
+				// 初始化之前，还没有进行数据观测，只是初始化父子关系，还有一些内部事件比如$on,$emit...
+				// 一般情况下会混入mixin
+				console.log('vm beforeCreated');
+			},
+			created() {
+
+			},
+			template: '',
+			beforeMount() {// 在第一次调用render之前执行
+
+			},
+			mounted() {// 创建出真实的dom 替换老的节点 vm.$el替换el
+
+			},
+			beforeUpdate() {
+
+			},
+			updated() {// 内部不要更新数据
+
+			},
+			beforeDestroy() {// 自定义事件的解绑,定时器的清理
+
+			},
+			destroyed() {
+
+			}
+		});
+	</script>
+</body>
+</html>

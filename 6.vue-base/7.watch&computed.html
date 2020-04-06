@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		{{msg}}
+		<hr>
+		全选反选 <input type="checkbox" v-model="checkAll">
+		<input type="checkbox" v-for="check in checks" v-model="check.check">
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				// msg: 'hello',
+				msg: {a: 1},// msg是对象的情况, 
+				checks: [{check:true}, {check: true}, {check: true}]// 注意要使用数组套对象，而不是数组套原始类型，这样才能变成响应式的
+			},
+			computed: {
+				checkAll: {
+					get() {// 取值时走get
+						return this.checks.every(item => item.check);
+					},
+					set(newValue) {// 修改值, 一般情况下很少用，只有使用v-model时会用到
+						this.checks.forEach(item => item.check = newValue);
+					}
+				}
+			},
+			methods: {
+				fn() {
+					console.log('methods fn 作为监控函数');
+				}
+			},
+			// watch的三种写法：函数、对象、字符串
+			watch: {
+				// 我们只监控了msg，内部的属性没有监控， 如果想要监控内部的属性则需要使用deep:true
+				// msg(newValue, oldValue) {
+				// 	console.log(newValue, oldValue);
+				// }
+				// msg: { 
+				// 	handler (newValue, oldValue) {
+				// 		console.log(newValue, oldValue);// 如果是对象类型那么取不到老值
+				// 	},
+				// 	deep: true
+				// }
+				msg: [
+					{ 
+						handler (newValue, oldValue) {
+							console.log(newValue, oldValue);// 如果是对象类型那么取不到老值
+						},
+						deep: true
+					},
+					{
+						handler() {
+							console.log('第二个监控函数')
+						},
+						immediate: true// 立即执行一次
+					},
+					'fn'
+				]
+			}
+		});
+
+		setTimeout(() => {
+			vm.msg = 100;
+		}, 1000);
+	</script>
+</body>
+</html>

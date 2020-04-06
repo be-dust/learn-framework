@@ -15,13 +15,11 @@
 	<script>
 		let vm = new Vue({
 			el: '#app',
-			data: {
-				msg: 'hello'
-			},
-			// template: '<p>world</p>',
-			// render(h) {// 1. 写了render， template就不起作用了；2. 不写render,写template，就使用template作为模板；3. render和template都不写就采用外部模板也就是#app内部的html
-			// 	return h('p', ['hello']);
-			// }
+			data () {
+				return {
+					msg: 'hello'
+				}
+			}
 		});
 	</script>
 </body>

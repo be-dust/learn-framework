@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.box {
+			background: red;;
+		}
+		.v-enter {
+			background: blue;
+		}
+		.v-enter-active {
+			transition: all 2s linear;
+		}
+		.v-enter-to {
+			background: yellow;
+		}
+		/* 没有实际意义 */
+		.v-leave {
+			background: purple;
+		}
+		.v-leave-active {
+			transition: all 2s linear;
+		}
+		.v-leave-to {
+			background: blue;
+		}
+
+	</style>
+</head>
+<body>
+	
+	<div id="app">
+		<!-- vue中的动画 
+		1. 当dom显示或隐藏 v-for v-if v-show-->
+		<transition>
+			<div style="width: 100px; height: 100px" class="box" v-show="isShow"></div>
+		</transition>
+		
+
+		<button @click="fn">点我啊</button>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					isShow: true
+				}
+			},
+			methods: {
+				fn() {
+					this.isShow = !this.isShow;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

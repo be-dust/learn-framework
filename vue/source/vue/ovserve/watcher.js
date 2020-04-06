@@ -35,7 +35,7 @@ class Watcher {
 		this.id = id++;
 
 		this.lazy = opts.lazy;// 计算属性computed使用
-		this.dirty = this.lazy;// computed比watch多了一个缓存
+		this.dirty = this.lazy;// computed比watch多了一个缓存, 默认为true
 
 		this.immediate = opts.immediate;// watch使用
 		
@@ -57,7 +57,7 @@ class Watcher {
 		
 		// let value = this.getter();
 
-		let value = this.getter.call(this.vm); // 对计算属性来说：this.getter就是() => this.firstName + this.lastName, 初始化页面时执行get方法就会取到fullName, 取firstName和lastName的过程中也会各自收集依赖, 但是注意了，他们收集到的watcher是fullName的watcher而不是渲染watcher, 因为这个时候还没有执行popTarget(), 因此当他们的值发生变化时页面不会更新, firstName和lastName还需要对渲染watcher进行收集，主要逻辑就放在了watcher.depend方法中。
+		let value = this.getter.call(this.vm); // 1. 对计算属性来说：this.getter就是() => this.firstName + this.lastName, 初始化页面时执行计算属性的get方法(这个get方法是在createComputedGetter定义的)就会取到fullName, 取firstName和lastName的过程中也会各自收集依赖, 但是注意了，这个时候全局的watcher是fullName的watcher, 因此他们收集到的watcher是fullName的watcher而不是渲染watcher, 因为这个时候还没有执行popTarget(), 因此当他们的值发生变化时页面不会更新, firstName和lastName还需要对渲染watcher进行收集，主要逻辑就放在了createComputedGetter这个函数内部的watcher.depend方法中。
 		popTarget();
 		return value;
 	}
@@ -75,10 +75,10 @@ class Watcher {
 		}
 	} 
 	depend() {
-		// 计算属性的watcher的deps，上面说了firstName和lastName收集的fullName的watcher,因此这个watcher的deps就是[firstName的dep, lastName的dep]
+		// 3. fullName计算属性的watcher的deps，上面说了firstName和lastName收集了fullName的watcher,因此这个watcher的deps现在就是[firstName的dep, lastName的dep],this就是fullName的watcher
 		let i = this.deps.length;
 		while(i--) {
-			this.deps[i].depend();// 此时全局的watcher是渲染watcher,这样firstName和lastName的deps就变成了[fullName的watcher, 渲染watcher]，当二者任意一个发生变化时就会先通知fullName的watcher，从而取到最新的fullName，然后再通知渲染watcher，更新页面
+			this.deps[i].depend();// 4. 此时全局的watcher是渲染watcher,这样firstName和lastName的deps就变成了[fullName的watcher, 渲染watcher]，当二者任意一个发生变化时就会先通知fullName的watcher，从而取到最新的fullName，然后再通知渲染watcher，更新页面
 		}
 	}
 	update() {// 如果立即调用get就会导致页面刷新，异步来更新
@@ -93,6 +93,7 @@ class Watcher {
 			queueWatcher(this);
 		}
 	}
+	// watcher更新时先走的是update方法，run方法只是为了异步更新
 	run() {
 		// this.get();
 		
@@ -112,7 +113,7 @@ function flushQueue() {
 }
 function queueWatcher(watcher) {
 	let id = watcher.id;
-	if (has[id] == null) {
+	if (has[id] == null) {// 判断watcher存在否
 		has[id] = true;
 		queue.push(watcher);// 相同的watcher只会存一个
 

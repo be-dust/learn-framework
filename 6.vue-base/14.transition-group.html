@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+	<style>
+		li {
+			background: blue;
+			color: white;
+			line-height: 35px;
+			width: 200px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="app">
+		<input type="text" v-model="content">
+
+		<!-- 自定义类名		 -->
+		<transition-group
+			enter-active-class="bounceInLeft animated"
+			leave-active-class="bounceOutRight animated"
+		>
+			<li v-for="item in computedArr" :key="item">{{item}}</li>
+		</transition-group>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					msg: 'hello',
+					content: '',
+					arrs: ['abc', 'bcd', 'def', 'yyy', 'zzz']
+				}
+			},
+			computed: {
+				computedArr() {
+					return this.arrs.filter(item => item.includes(this.content));
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

@@ -66,7 +66,8 @@ function createComputedGetter(vm, key) {
 				watcher.evaluate();
 			}
 
-			// 初始化时全局的watcher是渲染watcher，dep文件中的stack是[渲染watcher], 当执行fullName的get方法后这个stack就变成了[渲染watcher, fullName的watcher]， 全局的watcher就是fullName的watcher, get方法执行完毕stack又变成了[渲染watcher], 全局的watcher就是渲染watcher,
+			// 2. 初始化时全局的watcher是渲染watcher，dep文件中的stack是[渲染watcher], 当执行fullName的watcher的evaluate方法然后执行get方法后这个stack就变成了[渲染watcher, fullName的watcher]， 全局的watcher就是fullName的watcher, get方法执行完毕stack又变成了[渲染watcher], 全局的watcher就是渲染watcher,
+			// 走到这时get方法已经执行完毕，全局watcher已经变成了渲染watcher,这一步主要是为了firstName和lastName对渲染watcher进行收集
 			if (Dep.target) {// Dep.target就是渲染watcher
 				watcher.depend();// 这个watcher是计算属性watcher
 			}

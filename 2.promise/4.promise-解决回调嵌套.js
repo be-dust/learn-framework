@@ -4,7 +4,7 @@ let Promise = require('./promise-complete');
 // 将异步发方法 先转换成promise
 function read(...args) {
 	// 多了一层嵌套不好 
-	// return new Promise((resolve, reject) => {
+	// return new Promise((resolve, reject) => { 
 	// 	fs.readFile(...args, function(err, data) {
 	// 		if (err) reject(err);
 	// 		resolve(data);
@@ -13,7 +13,7 @@ function read(...args) {
 
 	let dfd = Promise.defer();// 延迟对象，可以解决promise的嵌套
 	fs.readFile(...args, function(err, data) {
-		if (err) dfd.reject(err);
+		if (err) dfd.reject(err);  
 		dfd.resolve(data);
 	});
 	return dfd.promise;
@@ -26,8 +26,8 @@ read('./name.txt', 'utf8').then(data => {
 
 // 上面写法还是太麻烦
 
-// 直接将异步的node方法转化成promise方法
-// let { promisify} = require('util'); node自带
+// 直接将异步的node方法转化成p romise方法
+// let { promisify} = require('util'); node自带+
 // let readFile = promisify(fs.readFile);
 
 // 实现自己的promisify

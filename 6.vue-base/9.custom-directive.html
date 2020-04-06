@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="app">
+		<!-- 日历组件 点击输入框 可以显示下面的面板, 点击面板不能隐藏面板-->
+		<div v-click-outside="hide">
+			<!-- @blur="hide" 不能实现 -->
+			<input type="text" @focus="show">
+			<div v-if="isShow">
+				显示面板
+			</div>
+		</div>
+		<hr>
+		<!-- 这种原生方法自动获取焦点的办法是无效的，因为vue在模板编译的时候autofocus成功了，但是插入页面的时候就失效了  -->
+		原生focus:<input type="text" autofocus="true">
+		<hr>
+		<div>
+			v-focus: <input type="text" v-focus>
+		</div>
+
+		<div>
+			<p v-format="count"></p>
+		</div>
+
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		// Vue.directive() 全局指令
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: 'hello',
+				isShow: false,
+				outSideShow: false,
+				count: 999999
+			},
+			methods: {
+				show() {
+					this.isShow = true;
+				},
+				hide() {
+					this.isShow = false;
+				}
+			},
+			// 局部
+			directives: {
+				// bindings表示当前指令的一些信息, vnode表示el的虚拟节点
+				// 指令也有生命周期也就是钩子函数
+				// bind: 当指令绑定上的时候会执行一次, 这个时候dom可能还没有插入到页面中
+				// inserted: dom插入页面的时候执行一次
+				// update： 当引用的数据变化时会执行一个钩子
+				// componentUpdate
+				// unbind
+
+				// 默认写一个函数的话，bind和update都会执行这个函数
+
+				// clickOutside(el, bindings, vnode) {
+				// 	// console.log(this);// window
+				// 	console.log(el, bindings, vnode);
+				// 	document.addEventListener('click', function(e) {
+				// 		if (!el.contains(e.target)) {// 点击的是el以外区域
+				// 			let method = bindings.expression;// 取到hide
+				// 			vnode.context[method]();// vnode.context就是当前vm实例 hide()
+				// 		}
+				// 	});
+				// }
+
+				clickOutside: {
+					bind(el, bindings, vnode) {
+						// console.log('bind', el);
+						el.handler = function (e) {
+							if (!el.contains(e.target)) {
+								let method = bindings.expression; // 取到hide
+								vnode.context[method](); // vnode.context就是当前vm实例 hide()
+							}
+						}
+						document.addEventListener('click', el.handler);
+					},
+					update() {
+						// console.log('updated');
+					},
+					inserted(el) {
+						// console.log('inserted', el);
+					},
+					unbind(el) { // 移除指令
+						document.removeEventListener('click', el.handler);
+					}
+				},
+				focus: {
+					// 使用bind形式
+					bind(el, bindings, vnode) {
+						// console.log(document.body.contains(el)); // false
+						Vue.nextTick(() => {
+							// console.log(document.body.contains(el)); // true
+							el.focus();
+						});
+					},
+					// 使用inserted
+					// inserted(el, bindings, vnode) {
+					// 	console.log(document.body.contains(el));
+					// 	el.focus();
+					// }
+				},
+				format: {
+					bind(el, bindings, vnode) {
+						el.handler = function (bindings) {
+							console.log(bindings);
+							let number = bindings.value;
+							if (number <= 0) {
+								return;
+							}
+
+							if (number > 9999 && number < 100000000) {
+								let divider = number / 10000;
+								number = Math.round(divider * 10) / 10 + 'W';
+							}
+
+							if (number >= 100000000) {
+								let divider = number / 100000000;
+								number = Math.round(divider * 10) / 10 + '亿';
+							}
+							el.innerHTML = number;
+						}
+						el.handler(bindings);
+					},
+					update(el, bindings) {
+						el.handler(bindings);
+					}
+				}
+			}
+		});
+		setTimeout(() => {
+			vm.outSideShow = true;
+			vm.count = 999;
+		}, 3000);
+	</script>
+</body>
+
+</html>

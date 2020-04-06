@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app1">
+		{{timer | format('YYYY:MM:DD hh:mm:ss')}}
+	</div>
+
+	<div id="app2">
+		
+	</div>
+
+	<script src="node_modules/vue/dist/vue.js"></script>
+	<script src="node_modules/moment/moment.js"></script>
+
+	<script>
+		// 过滤器就是将原始数据进行格式化数据，而不改变源数据
+		// 时间格式化 
+		// 货币符号
+		// 1. 全局过滤器 2.局部过滤器 
+		Vue.filter('format', function(timer, formatter) {
+			// filter 没有this
+			return moment(timer).format(formatter);
+		})
+		let vm = new Vue({
+			el: '#app1',
+			data: {
+				timer: 1224332433232
+			},
+			// 局部
+			filters: {
+
+			}
+		});
+		// let vm2 = new Vue({
+		// 	el: '#app2',
+		// 	data: {
+		// 		msg: 'hello'
+		// 	}
+		// });
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		<div class="red" :class="['hello', red]"></div>
+		<div @click="fn">
+			<span>点击</span>
+			<a href="www.baidu.com" @click.prevent.stop="">点击</a>
+		</div>
+		<hr>
+		<!-- v-model 双向绑定 语法糖 -->
+
+		<!-- 不使用v-model的情况：使用value 和 input事件实现双向绑定 -->
+		<!-- {{msg}} <input type="text" :value="msg" @input="(e) => msg=e.target.value"> -->
+		
+		{{msg}} <input type="text" v-model="msg">
+
+		<!-- v-model也可以自定义，主要是针对组件,具体实现就是定义组件的时候提供了一个model选项把默认的value属性改为checked,默认的input事件事件改为change事件 -->
+		<!-- textarea select radio checkbox -->
+		<hr>
+		{{selected}}
+		<select v-model="selected" multiple>
+			<option value="" disabled>请选择</option>
+			<option v-for="item in opts" :key="item.value" :value="item.value">{{item.name}}</option>
+		</select>
+
+		<hr>
+		<!-- radio和checkbox原理一样 -->
+		{{checked}}
+		吃<input type="checkbox" v-model="checked" value="吃">
+		喝<input type="checkbox" v-model="checked" value="喝">
+		玩<input type="checkbox" v-model="checked" value="玩">
+
+		<hr>
+		{{msg2}}
+		<!-- 修饰符 .lazy .trim .number  -->
+		<input type="text" v-model.number="msg2">
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: 'hello',
+				msg2: 0,
+				red: 'back',
+				opts: [{value: 1, name: 'a'}, {value: 2, name: 'b'}],
+				// selected: ''// selected可以多选，改为数组类型、然后给select标签加上multiple属性即可
+				selected: [],
+				checked: []
+			},
+			methods: {
+				// 如果调用时添加(), 需要手动传入事件源$event, @click="fn($event)" 事件是绑定给元素的而且内部是原生事件
+				// .stop 阻止冒泡
+				// .prevent 阻止默认行为，比如a标签的跳转
+				// .self
+				// .once
+				// .passive 提高滚动事件的效率， 当前没有阻止默认行为
+				fn(e) {
+					console.log(this);// 这里的this指的是vm实例,内部使用了bind方法绑定了this，因此再次绑定this不会生效
+					console.log(e.target, e.currentTarget);
+				},
+				handleInput(e) {
+					this.msg = e.target.value;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

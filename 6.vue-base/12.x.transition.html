@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		<transition
+			@before-enter="beforeEnter"
+			@enter="enter"
+			@after-enter="afterEnter"
+
+			@before-leave=""
+			@leave=""
+			@after-leave=""
+		>
+		<div style="width: 100px; height: 100px" v-show="isShow"></div>
+		</transition>
+
+		<button @click="fn">点我啊</button>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: 'hello',
+				isShow: false
+			},
+			methods: {
+				fn() {
+					this.isShow = !this.isShow;
+				},
+				beforeEnter(el) {
+					el.style.background = 'yellow';
+				},
+				enter(el, done) {
+					el.style.background = 'blue';
+					setTimeout(() => {
+						done();
+					}, 1000);
+				},
+				afterEnter(el) {
+					el.style.background = 'pink';
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<div id="app">
+		<my-com></my-com>
+		<my-com></my-com>
+	</div>
+	<script src="node_modules/vue/dist/vue.js"></script>
+
+	<script>
+		
+		// 组件的实例化其实走的还是vue的流程，不一样的是组件实例化的时候用的是一个新的构造函数，这个构造函数是Vue的一个子类，通过Vue.extend()方法返回
+
+		
+		/* Vue.component('my-com', {
+			template: '<div>{{msg}}</div>',
+			data() {
+				return {
+					msg: 'hello'
+				}
+			}
+		}); */
+
+		let Ctor = Vue.extend({
+			template: '<div>{{msg}}</div>',
+			data() {
+				return {
+					msg: 'hello'
+				}
+			}
+		});
+		console.log(Ctor);// Ctor就是子类构造函数
+
+		document.body.appendChild(new Ctor().$mount().$el);// 我们可以手动挂载组件
+
+		// Vue.component会调用Vue.extend方法，如果第二个参数已经是构造函数那就不会再调用Vue.extend()方法了
+		Vue.component('my-com', Ctor);
+
+		let vm = new Vue({
+			el: '#app',
+			data () {
+				return {
+					msg: 'hello'
+				}
+			}
+		});
+
+		// 在一个文件里维护n个组件十分不利于开发，因此就有了单文件开发形式
+	</script>
+</body>
+</html>
