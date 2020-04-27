@@ -20,19 +20,19 @@
 				msg: 'hello'
 			}
 		});
-		/* vm.$mount();// 不传参数表示我们要手动挂载,可以挂载到页面的任何地方，以前的写法只能放在#app中，现在我们就不需要提前在页面上放一个模板
-		console.log(vm.$el);// $mount之后才会有$el
-		document.body.appendChild(vm.$el); */
+		vm.$mount();// 不传参数表示我们要手动挂载,可以挂载到页面的任何地方，以前的写法只能放在#app中，现在我们就不需要提前在页面上放一个模板
+		console.log(vm.$el);// $mount之后才会有$el，注意这个时候mounted里面还拿不到真实的dom.
+		document.body.appendChild(vm.$el); // 这个时候才能拿到真实的dom
 		// console.log(vm.$mount());// 返回的是vue实例
 		// document.getElementById('app').appendChild(vm.$mount().$el);
-		vm.$mount('#app');
-		console.log(vm.$options);// 用户传入的属性和vue内部的属性
-		vm.$watch('msg', function(newValue,oldValue) {
-			console.log(newValue);
-		});
-		vm.msg = 1;
-		vm.msg = 2;
-		vm.msg = 3;
+		// vm.$mount('#app');// 这个时候mounted里面可以拿到真实的dom
+		// console.log(vm.$options);// 用户传入的属性和vue内部的属性
+		// vm.$watch('msg', function(newValue,oldValue) {
+		// 	console.log(newValue);
+		// });
+		// vm.msg = 1;
+		// vm.msg = 2;
+		// vm.msg = 3;
 		// vm.$nextTick vm.$delete vm.$set
 	</script>
 </body>

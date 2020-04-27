@@ -1,4 +1,4 @@
-// menu改造
+// jsx
 import Vue from 'vue';
 import App from './App';
 

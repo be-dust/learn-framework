@@ -104,7 +104,7 @@ export default (Vue) => {
                     src = listener.src;
                     break;
             }
-            el.setAttribute('src', src);
+            el.setAttribute('src', src);    
         }
     }
 }
