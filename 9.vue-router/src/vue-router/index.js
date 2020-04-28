@@ -6,10 +6,9 @@ import HashHistory from './history/hash';
 
 class VueRouter {
 	constructor(options) {
-		console.log('用户传入的配置', options); 
+		// console.log('用户传入的配置', options); 
 		// 默认需要先进性数据的格式化
 		// matcher 匹配器 处理树形结构将它扁平化
-
 		// 会返回两个方法 match：匹配结果  addRoute:动态添加路由
 		this.matcher = createMatcher(options.routes);
 
@@ -38,7 +37,6 @@ class VueRouter {
 
 		// 1. 需要获取到路由的路径进行跳转匹配到对应的组件进行渲染
 		// 2. 当第一次匹配完成后需要监听路由的变化
-
 		const history = this.history;
 
 		const setupHashListener = () => {// 跳转成功后的回调
@@ -48,7 +46,7 @@ class VueRouter {
 		history.transitionTo(// 跳转的方法 父类实现
 			history.getCurrentLocation(),// 获取当前路径的方法  子类实现
 			setupHashListener
-			);
+		);
 		history.listen((route) => {
 			app._route = route;
 		});

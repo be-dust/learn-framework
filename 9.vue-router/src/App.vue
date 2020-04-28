@@ -4,7 +4,10 @@
       <router-link tag="span" to="/">Home</router-link> |
       <router-link tag="span" to="/about">About</router-link>
     </div>
-
+    {{this._routerRoot._router.history.current.path}}
+    <br>
+    {{this._routerRoot._route}}
+    
     <router-view></router-view>
   </div>
 </template>

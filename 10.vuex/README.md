@@ -1,4 +1,7 @@
 
+## 运行
+cd 10.vuex
+npm run serve
 ## 1. 什么是vuex?
 vuex是专门为vuejs应用设计的一套状态管理模式，提供了一套集中管理数据的概念和用法，用来解决中大型项目中组件间大量数据共享的问题。它的核心概念包括state、mutations、actions，基于这些它的工作流程是：
 ![image](https://vuex.vuejs.org/vuex.png)

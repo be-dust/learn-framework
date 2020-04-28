@@ -1,3 +1,4 @@
+// location是一个对象
 export function createRoute(record, location) {
 	let res = []; // 如果匹配到了路径需要把所有匹配到了都放进去
 	if (record) {
@@ -23,28 +24,25 @@ function runQueue(queue, iterator, callback) {
 class History {
 	constructor(router) {
 		this.router = router;
-		// 当前路径和 对应的匹配的结果
+		// 当前路径和对应的匹配的结果
 		this.current = createRoute(null, {// 默认是{matched: [], path: '/'}
-			path: '/' // 默认路由就是/
+			path: '/'
 		});
-		console.log('初始化路由是', this.current);
+		// console.log('初始化路由是', this.current);
 		this.cb = undefined;
 	}
 	transitionTo(location, callback) {// 最好屏蔽一下，如果多次调用路径相同不需要跳转
-		console.log('跳转', location);
 		// 根据路径获取到对应的组件
-		
 		let r = this.router.match(location); // {path: '', matched: []}
-		console.log('匹配到的记录', r);
+		console.log(`路径${location}匹配到的记录`, r);
 
 
-		// 判断是否是相同的路径 防止多次触发页面更新
-		// 刚开始 this.current = {path: "/", matched: Array(0)};   r = {path: "/", matched: Array(1)}, 所以为了第一次能够往下执行需要多加一层matched的判断
+		// 判断是否是相同的路径 防止多次触发页面更新, 刚开始 this.current = {path: "/", matched: Array(0)};   r = {path: "/", matched: Array(1)}, 所以为了第一次能够往下执行需要多加一层matched的判断
 		if (location == this.current.path && r.matched.length === this.current.matched.length) {
 			return;
 		}
 
-		callback && callback();
+		callback && callback();// 监听hash变化
 		
 		// 更改路径之后，需要先执行钩子
 		let queue = this.router.beforeEachs;
@@ -54,16 +52,17 @@ class History {
 
 		}
 		runQueue(queue, iterator, () => {
-			this.updateRoute(r, callback);
+			this.updateRoute(r);
 		});
 		
 	}
 	// 更新路由
-	updateRoute(r, callback) {
+	updateRoute(r) {
 		this.current = r;// 将当前路径进行更新
 		this.cb && this.cb(r);// 告诉_route属性更新，更新后视图会重新渲染
 	}
 	setupListener() {
+        // 实际上应该根据当前模式监听不同的事件
 		window.addEventListener('hashchange', () => {// hash变化后页面会重新跳转
 			this.transitionTo(window.location.hash.slice(1));
 		});

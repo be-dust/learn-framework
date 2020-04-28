@@ -2,7 +2,7 @@ import RouterView from './components/router-view';
 import RouterLink from './components/router-link';
 
 const install = (Vue) => {
-	console.log('install');
+	// console.log('install');
 	// 默认希望可以把router放到任何的组件使用
 	Vue.mixin({
 		beforeCreate() {
@@ -13,12 +13,10 @@ const install = (Vue) => {
 
 				this._router.init(this);// 重点 路由的初始化
 
-				// 将current属性定义成响应式的， 这样更新current就可以刷新视图了
-				// 
-
+                // 将current属性定义成响应式的， 这样更新current就可以刷新视图了
+                // 给根实例增加了一个_route属性，值就是this._router.history.current
+                // 每次更新路径之后需要更新_route属性
 				Vue.util.defineReactive(this, '_route', this._router.history.current);
-				// 每次更新路径之后需要更新_route属性
-
 			} else {
 				// 子组件上都有一个_routerRoot属性可以获取到最顶层的根实例
 				this._routerRoot = this.$parent && this.$parent._routerRoot;
