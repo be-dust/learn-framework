@@ -4,15 +4,14 @@
       <router-link tag="span" to="/">Home</router-link> |
       <router-link tag="span" to="/about">About</router-link>
     </div>
-    {{this._routerRoot._router.history.current.path}}
-    <br>
-    {{this._routerRoot._route}}
+    {{this.$route.path}}
     
     <router-view></router-view>
   </div>
 </template>
 <script>
 export default {
+  name: 'app',
   mounted() {
     // console.log('App', this._routerRoot._router);
     // console.log('App的爸爸', this.$parent);

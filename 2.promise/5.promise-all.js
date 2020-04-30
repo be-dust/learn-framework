@@ -28,8 +28,8 @@ Promise.all = function (promises) {
 			/* if (arr.length === promises.length) {//这种写法是错误的, 因为异步的存在，当执行到 3 时， 3的索引是4，那么就执行了arr[4] = 3, 这个时候的arr.length已经等于4就直接resolve了， 所以最终返回的结果就是[ 1, <1 empty item>, 2, <1 empty item>, 3 ]
 				resolve(arr);
 			} */
-			
 			if (++idx === promises.length) {
+				// console.log(arr);
 				resolve(arr);
 			}
 		}
@@ -51,8 +51,9 @@ Promise.all = function (promises) {
 // all 方法，最终返回的是一个Promise
 // 全部成功才算成功，如果一个失败就算失败，一损俱损
 
-Promise.all([1, read('./name.txt', 'utf8'), 2, read('./age.txt', 'utf8'), 3]).then((data) => {
-	console.log(data);
+
+let promise = Promise.all([1, read('./name.txt', 'utf8'), 2, read('./ag.txt', 'utf8'), 3]).then((data) => {
+	console.log(promise);
 }).catch(err => {
 	console.log(err);
 });

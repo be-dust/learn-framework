@@ -9,7 +9,7 @@ export default function createMatcher(routes) {
 	let {pathList, pathMap} = createRouteMap(routes);
 	// console.log(pathList, pathMap);
 	// 类比store.registerModule()
-	function addRoute() {
+	function addRoutes() {
 		// 重载功能
 		createRouteMap(routes, pathList, pathMap);
 	}
@@ -23,7 +23,7 @@ export default function createMatcher(routes) {
 	}	
 
 	return {
-		addRoute, 
+		addRoutes, 
 		match
 	}
 }

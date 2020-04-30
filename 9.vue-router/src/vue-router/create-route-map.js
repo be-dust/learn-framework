@@ -1,7 +1,7 @@
 
 export default function createRouteMap(routes, oldPathList, oldPathMap) {
 	let pathList = oldPathList || [];
-	let pathMap = oldPathList || Object.create(null);
+	let pathMap = oldPathMap || Object.create(null);
 	// 数组的扁平化
 	routes.forEach(route => {
 		// addRouteRecord 根据用户的路由配置实现格式化数据

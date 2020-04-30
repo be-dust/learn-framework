@@ -8,7 +8,7 @@ export default function h(tag, props, ...children) {
 		if (typeof child === 'object') {
 			return child;
 		} else {
-			return vnode(undefined, undefined, undefined, undefined, child);
+			return vnode(undefined, undefined, undefined, undefined, child);// 文本节点
 		}
 	});
 	

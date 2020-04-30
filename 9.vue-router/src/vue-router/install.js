@@ -26,7 +26,7 @@ const install = (Vue) => {
 		}
 	})
 	// 实现了一个代理功能
-	Object.defineProperty(Vue.prototype, '$route', {
+	Object.defineProperty(Vue.prototype, '$route', { // 给Vue.prototype定义了一个$route属性，那么每一个实例都会继承这个属性
 		get() {
 			return this._routerRoot._route;
 		}
@@ -40,6 +40,7 @@ const install = (Vue) => {
 	Vue.component('RouterView', RouterView);
 	Vue.component('RouterLink', RouterLink);
 
+	
 }
 
 export default install

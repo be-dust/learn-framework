@@ -95,6 +95,7 @@ class Promise {
 					setTimeout(() => {
 						try {
 							let x = onfulfilled(this.value);
+							console.log('x', x);
 							resolvePromise(promise2, x, resolve, reject);
 						} catch (e) {
 							reject(e);
@@ -133,3 +134,6 @@ Promise.defer = Promise.deferred = function() {
 }
 
 module.exports = Promise;
+
+
+

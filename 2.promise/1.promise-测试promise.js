@@ -8,6 +8,7 @@ let Promise = require('./promise-complete');
 let promise = new Promise((resolve, reject) => {
 	resolve('hello');
 });
+
 // promise中执行了resolve('hello')，promise2中才能拿到hello,所以同理，promise2中调用resolve，promise3才能拿到promise2返回的结果
 let promise2 = promise.then(() => {
 	return new Promise((resolve, reject) => {

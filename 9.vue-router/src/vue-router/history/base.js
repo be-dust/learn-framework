@@ -32,12 +32,12 @@ class History {
 		this.cb = undefined;
 	}
 	transitionTo(location, callback) {// 最好屏蔽一下，如果多次调用路径相同不需要跳转
-		// 根据路径获取到对应的组件
+		// 根据路径获取到对应的记录
 		let r = this.router.match(location); // {path: '', matched: []}
 		console.log(`路径${location}匹配到的记录`, r);
 
 
-		// 判断是否是相同的路径 防止多次触发页面更新, 刚开始 this.current = {path: "/", matched: Array(0)};   r = {path: "/", matched: Array(1)}, 所以为了第一次能够往下执行需要多加一层matched的判断
+		// 判断是否是相同的路径 防止多次触发页面更新, 第一次调用transitionTo时 this.current = {path: "/", matched: Array(0)};   r = {path: "/", matched: Array(1)}, 所以为了第一次能够往下执行需要多加一层matched的判断
 		if (location == this.current.path && r.matched.length === this.current.matched.length) {
 			return;
 		}
