@@ -5,6 +5,7 @@
   "main": "1.parser.test.js",
   "dependencies": {
     "@types/jest": "^25.2.1",
+    "axios": "^0.19.2",
     "jest": "^26.0.1"
   },
   "devDependencies": {

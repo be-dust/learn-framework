@@ -133,12 +133,10 @@ test();
 // async 就相当于是co方法， await就相当于yield， 内部有一个next方法
 // test就是generator函数， 相当于执行co(test())返回一个promise，co方法内部有一个next函数
 // 1. 执行next，执行到第一个 yield new Promise(), 返回一个promise
-// 2. 在promise.then方法中执行next(data),这样就把promise的结果赋值给了r, 然后next(data)的返回结果是{value: undefined, done: true}
-// 因此data是undefined
+// 2. 在promise.then方法中执行next(data),这样就把promise的结果赋值给了r
 
 async function test() {
   // 返回一个promise
-
   let r = await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve("hello");
