@@ -1,0 +1,20 @@
+{
+  "name": "unit",
+  "version": "1.0.0",
+  "description": "坏处： - 测试代码写起来比较浪费时间 好处： - 模块化开发，更改某些代码影响了其他模块，如果有测试用例就可以快速定位 - 多人开发，别人的代码看不懂，如果有测试用例就可以快速了解别人写的代码 - 测试用例会强迫自己写出更高质量的代码",
+  "main": "1.parser.test.js",
+  "dependencies": {
+    "@types/jest": "^25.2.1",
+    "jest": "^26.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6"
+  },
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
