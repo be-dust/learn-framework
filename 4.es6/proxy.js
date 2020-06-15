@@ -1,6 +1,6 @@
 // 代理 + reflect 反射 es6
 
-/* let obj = {
+let obj = {
 	a: 1,
 	b: 2,
 	c: {
@@ -22,9 +22,12 @@
 // // proxy.c = 100;// 可以取到原对象不存在的属性
 // console.log(proxy.a);
 
+
+
 const update = () => {
 	console.log('更新');
 }
+
 let handler = {
 	get(target, key) {// Reflect能反射13种
 		if (typeof target[key] === 'object') {
@@ -51,8 +54,6 @@ let handler = {
 let proxy  = new Proxy(obj, handler);
 // console.log(proxy.a = 2);
 proxy.c.c = 10;// proxy不会一开始就给每个属性加上setter, getter,而是访问到某个属性是对象了才会去new一个proxy，这样的话性能会更好
- */
-
 
 
 

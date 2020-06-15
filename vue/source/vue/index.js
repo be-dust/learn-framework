@@ -26,7 +26,7 @@ Vue.prototype._update = function(vnode) {
 	console.log('视图渲染');
 	let vm = this;
 	// 用用户传入的数据去更新视图
-	let el = vm.$el;
+    let el = vm.$el;
 
 	let preVnode = vm.preVnode;// 第一次肯定没有
 	if (!preVnode) {// 初次渲染

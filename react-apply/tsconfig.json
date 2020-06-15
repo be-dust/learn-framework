@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "outDir": "./dist",
+      "sourceMap": true,
+      "noImplicitAny": true,// 不允许出现隐含的any类型
+      "module": "CommonJS",
+      "target": "es5",
+      "jsx": "react",// 如何编译JSX语法
+      "esModuleInterop": true, // 允许在common.js模块和es module进行转换
+      "baseUrl": ".",// 查找非相对路径的模块的起始位置 @/* 就相当于 ./src/*
+      "paths": {
+          "@/*": [
+              "src/*"
+          ]
+      }
+  },
+  "include": ["./src/**/*"]
+}

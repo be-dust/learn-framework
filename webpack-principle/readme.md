@@ -106,9 +106,10 @@ var _title__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/title.js");
 #### 使用import加载commonJS Module
 比如有以下cjs规范代码:
 ```js
- import name, {age} from './title';
- console.log(name);
- console.log(age);
+module.exports = {
+    name: 'title_name',
+    age: 'title_age'
+}
 ```
 对应打包后的结果就是：
 ```js

@@ -143,7 +143,7 @@ function updateChildren(parent, oldChildren, newChildren) {
 		} else if (isSameVnode(oldStartVnode, newEndVnode)) {// 3. 老的头和新的尾是否一样, 倒序
 			// a b c d => d c b a, 需要把老的a b c 依次移动到d后面， 注意移动的是真实的dom节点,我们的newChildren和oldChildren没有变
 			patch(oldStartVnode, newEndVnode);
-			parent.insertBefore(oldStartVnode.el,oldEndVnode.el.nextSibling);
+			parent.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling);
 			oldStartVnode = oldChildren[++oldStartIndex];
 			newEndVnode = newChildren[--newEndIndex];
 		} else if (isSameVnode(oldEndVnode, newStartVnode)) {// 4. 老的尾和新的头是否一样
